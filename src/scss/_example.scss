@@ -1,0 +1,21 @@
+$color1: #333;
+$color2: #EEE;
+$color3: #0FF;
+
+body {
+    margin: 20px;
+    background-color: $color1;
+    color: $color2;
+    font-size: 1rem;
+    font-family: sans-serif;
+    line-height: 1.5;
+}
+
+p {
+    padding: 10px 0;
+}
+
+a,
+strong {
+    color: $color3;
+}

@@ -1,0 +1,59 @@
+{
+  "name": "project-kit",
+  "version": "0.1.0",
+  "description": "A project boilerplate with batteries included",
+  "keywords": [
+    "kit",
+    "generator",
+    "boilerplate"
+  ],
+  "private": true,
+  "author": "Vulcan Estudios (vulcan-estudios.com)",
+  "contributors": [
+    {
+      "name": "Romel Pérez",
+      "email": "ronelprhone@gmail.com",
+      "url": "http://romelperez.com"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/vulcan-estudios/project-kit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vulcan-estudios/project-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vulcan-estudios/project-kit/issues"
+  },
+  "dependencies": {
+    "backbone": "^1.2.3",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-es2015-arrow-functions": "^6.1.18",
+    "babel-plugin-transform-es2015-block-scoping": "^6.1.18",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.2.0",
+    "babel-polyfill": "^6.2.0",
+    "babelify": "^7.2.0",
+    "browserify": "^12.0.1",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^4.0.1",
+    "grunt-contrib-compass": "^1.0.4",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-cssmin": "^0.14.0",
+    "grunt-contrib-htmlmin": "^0.6.0",
+    "grunt-contrib-uglify": "^0.10.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-notify": "^0.4.3",
+    "grunt-remove": "^0.1.0",
+    "grunt-vulcanize": "^1.0.0",
+    "jquery": "^2.1.4",
+    "remapify": "^2.1.0"
+  },
+  "main": "app.js",
+  "scripts": {
+    "build": "grunt build",
+    "test": "node tests",
+    "configure": "node configure.js"
+  }
+}

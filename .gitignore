@@ -19,9 +19,22 @@ coverage
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
-
-# Dependency directory
-# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
+# Packages
+bower_components
 node_modules
+
+# Sails
+config/local.js
+.tmp
+dump.rdb
+
+# Miscellaneous
+.sass-cache
+npm-debug.log
+*~
+*#
+.DS_STORE
+.netbeans
+nbproject
+.idea
+.node_history
