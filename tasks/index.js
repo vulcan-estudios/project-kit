@@ -5,13 +5,12 @@
 module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-browserify');
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-compass');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-remove');
+    grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-vulcanize');
-    grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-minify-polymer');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-notify');
 
@@ -22,73 +21,54 @@ module.exports = function(grunt) {
         //
 
         browserify: {
-
-            // Compatibility scripts
-            'app-compatibility': {
-                src: [
-                    './bower_components/webcomponentsjs/webcomponents-lite.min.js'
-                ],
-                dest: './build/js/compatibility.js'
-            },
-
-            // Non-CommonJS Libraries
-            'app-vendor': {
-                src: [
-                    //
-                ],
-                dest: './build/js/vendor.js'
-            },
-
-            // App scripts
-            app: {
-                options: {
-                    alias: {
-                        // name: './path'
-                    },
-                    plugin: [
-                        [
-                            'remapify', [{
-                                cwd: './libs/',
-                                src: './**/*.js',
-                                expose: 'libs'
-                            }]
-                        ]
-                    ],
-                    transform: [
-                        [
-                            'babelify', {
-                                plugins: [
-                                    'transform-es2015-block-scoping',
-                                    'transform-es2015-arrow-functions',
-                                    'transform-es2015-modules-commonjs'
-                                ]
-                            }
-                        ]
-                    ]
+            options: {
+                browserifyOptions: {
+                    debug: true
                 },
-                src: './src/js/main.js',
-                dest: './build/js/main.js'
-            }
-        },
-
-        concat: {
-            app: {
-                src: [
-                    './build/js/vendor.js',
-                    './build/js/main.js'
+                alias: {
+                    // name: './path'
+                },
+                plugin: [
+                    [
+                        'remapify', [{
+                            cwd: './libs/',
+                            src: './**/*.js',
+                            expose: 'libs'
+                        }]
+                    ]
                 ],
-                dest: './assets/js/app.js',
+                transform: [
+                    'stringify',
+                    [
+                        'babelify', {
+                            plugins: [
+                                'transform-es2015-block-scoping',
+                                'transform-es2015-arrow-functions',
+                                'transform-es2015-template-literals'
+                            ]
+                        }
+                    ]
+                ]
+            },
+            app: {
+                files: {
+                    './assets/js/app.js': './src/js/app.js'
+                }
             }
         },
 
         uglify: {
-            'app-compatibility': {
-                src: './build/js/compatibility.js',
-                dest: './assets/js/compatibility.min.js'
-            },
-            app: {
-                src: './assets/js/app.js',
-                dest: './assets/js/app.min.js'
+            assets: {
+                files: [{
+                    expand: true,
+                    cwd: './assets/js',
+                    src: [
+                        '**/*.js',
+                        '!**/*.min.js'
+                    ],
+                    dest: './assets/js',
+                    ext: '.min.js'
+                }]
             }
         },
 
@@ -102,14 +82,31 @@ module.exports = function(grunt) {
             }
         },
 
-        cssmin: {
-            app: {
+        postcss: {
+            options: {
+                map: false,
+                processors: [
+                    // REM polyfill.
+                    require('pixrem')(),
+                    // Autoprefixer.
+                    require('autoprefixer')({
+                        remove: false,
+                        browsers: [
+                            'last 2 versions',
+                            'ie >= 10'
+                        ]
+                    }),
+                    // Minifier.
+                    require('cssnano')()
+                ]
+            },
+            assets: {
                 files: [{
                     expand: true,
                     cwd: './assets/css',
                     src: [
-                        '*.css',
-                        '!*.min.css'
+                        '**/*.css',
+                        '!**/*.min.css'
                     ],
                     dest: './assets/css',
                     ext: '.min.css'
@@ -118,40 +115,45 @@ module.exports = function(grunt) {
         },
 
         vulcanize: {
+            options: {
+                stripComments: true,
+                inlineScripts: true,
+                inlineCss: true
+            },
             app: {
-                options: {
-                    stripComments: true,
-                    inlineScripts: true,
-                    inlineCss: true
-                },
                 files: {
-                    './build/polymers/polymers1.html': './src/polymers/polymers1.html'
+                    './assets/polymers/app.html': './src/polymers/app.html'
                 }
             }
         },
 
-        htmlmin: {
-            app: {
-                options: {
-                    removeComments: true
-                },
-                files: {
-                    './assets/polymers/polymers1.html': './build/polymers/polymers1.html'
-                }
+        minifyPolymer: {
+            assets: {
+                files: [{
+                    expand: true,
+                    cwd: './assets/polymers',
+                    src: [
+                        '**/*.html',
+                        '!**/*.min.html'
+                    ],
+                    dest: './assets/polymers',
+                    ext: '.min.html'
+                }]
             }
         },
 
-        remove: {
-            app: {
-                options: {
-                    trace: true
-                },
-                fileList: [
+        clean: {
+            assets: {
+                src: [
                     // JS
-                    './assets/js/compatibility.js',
-                    './assets/js/app.js',
+                    './assets/js/**/*.js',
+                    '!./assets/js/**/*.min.js',
                     // CSS
-                    './assets/css/app.css'
+                    './assets/css/**/*.css',
+                    '!./assets/css/**/*.min.css',
+                    // Polymer
+                    './assets/polymers/**/*.html',
+                    '!./assets/polymers/**/*.min.html'
                 ]
             }
         },
@@ -163,10 +165,10 @@ module.exports = function(grunt) {
 
         // Watchers.
         watch: {
-
-            'js': {
+            js: {
                 files: [
                     './src/js/**/*.js',
+                    './src/templates/**/*.html',
                     './libs/**/*.js'
                 ],
                 tasks: [
@@ -176,8 +178,7 @@ module.exports = function(grunt) {
                     spawn: false
                 }
             },
-
-            'css': {
+            css: {
                 files: [
                     './src/scss/**/*.scss'
                 ],
@@ -189,8 +190,7 @@ module.exports = function(grunt) {
                     spawn: false
                 }
             },
-
-            'polymer': {
+            polymer: {
                 files: [
                     './src/polymers/**/*.html',
                 ],
@@ -200,30 +200,27 @@ module.exports = function(grunt) {
                 options: {
                     spawn: false
                 }
-            },
+            }
         },
 
         // Messages.
         notify: {
-
-            'js': {
+            js: {
                 options: {
                     title: 'JavaScript',
-                    message: 'JavaScript files have been re-built.'
+                    message: 'JavaScript files re-built.'
                 }
             },
-
-            'css': {
+            css: {
                 options: {
                     title: 'CSS',
-                    message: 'CSS files have been re-built.'
+                    message: 'CSS files re-built.'
                 }
             },
-
-            'polymer': {
+            polymer: {
                 options: {
                     title: 'Polymer',
-                    message: 'Polymer components have been re-built.'
+                    message: 'Polymer components re-built.'
                 }
             }
         }
@@ -242,22 +239,22 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build:css', [
         'compass',
-        'cssmin',
-        'remove',
+        'postcss',
+        'clean',
         'notify:css'
     ]);
 
     grunt.registerTask('build:js', [
         'browserify',
-        'concat',
         'uglify',
-        'remove',
+        'clean',
         'notify:js'
     ]);
 
     grunt.registerTask('build:polymer', [
         'vulcanize',
-        'htmlmin',
+        'minifyPolymer',
+        'clean',
         'notify:polymer'
     ]);
 
