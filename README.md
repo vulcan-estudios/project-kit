@@ -31,6 +31,7 @@ Install system dependencies:
 - [Node and npm](https://github.com/romelperez/workspace/tree/master/node) with the global packages:
   - Grunt CLI
   - Bower
+  - Mocha
 - [Ruby](https://github.com/romelperez/workspace/tree/master/ruby) with the gems:
   - SASS
   - Compass
