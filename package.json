@@ -26,6 +26,7 @@
     "url": "https://github.com/vulcan-estudios/project-kit/issues"
   },
   "dependencies": {
+    "jquery": "^2.1.4",
     "backbone": "^1.2.3",
     "underscore": "^1.8.3"
   },
@@ -49,7 +50,6 @@
     "grunt-notify": "^0.4.3",
     "grunt-postcss": "^0.7.1",
     "grunt-vulcanize": "^1.0.0",
-    "jquery": "^2.1.4",
     "pixrem": "^3.0.0",
     "remapify": "^2.1.0",
     "stringify": "^3.2.0"

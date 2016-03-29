@@ -6,7 +6,6 @@ A boilerplate web project with the following batteries:
 - [Compass](http://compass-style.org/) - CSS Authoring Framework using SASS
 - [Foundation](foundation.zurb.com) - Responsive front-end framework
 - [Livereload](http://livereload.com/) & [Chrome Plugin](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei) & [Firefox Plugin](https://addons.mozilla.org/en-US/firefox/addon/livereload/) - Refresh HTML, CSS, JS, images and other stuff as soon as they change
-- [Bower](http://bower.io) - Frontend dependency manager
 - [npm](http://npmjs.org) - Node package manager
 - [Grunt](http://gruntjs.com) - Task runner
   - [Babel](http://babeljs.io/) - JavaScript ES2015 compiler
@@ -29,18 +28,17 @@ There are some other complementary tools too.
 Install system dependencies:
 
 - [Node and npm](https://github.com/romelperez/workspace/tree/master/node) with the global packages:
-  - Grunt CLI
-  - Bower
-  - Mocha
+  - Grunt CLI version ^0.4
+  - Mocha version ^2.2
 - [Ruby](https://github.com/romelperez/workspace/tree/master/ruby) with the gems:
-  - SASS
-  - Compass
+  - Ruby version ^1.9
+  - SASS version ^3.4
+  - Compass version ^1.0
 
 Project dependencies:
 
 ```bash
 npm install
-bower install
 ```
 
 Project configuration:
@@ -59,6 +57,7 @@ environment they are not required because assets would have been created.
   - `scss/` - SASS code
   - `polymers/` - Polymer components
   - `templates/` - Underscore templates
+- `libs/` - Custom universal JS libraries
 - `assets/` - Public assets folder
   - `js/` - JavaScript assets
   - `css/` - CSS assets

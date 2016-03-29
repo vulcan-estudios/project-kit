@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         browserify: {
             options: {
                 browserifyOptions: {
-                    debug: true
+                    debug: false
                 },
                 alias: {
                     // name: './path'
