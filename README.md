@@ -1,84 +1,71 @@
-# Project Kit
+# Vulcan Project Kit
 
-A boilerplate web project with the following batteries:
+A frontend boilerplate with the following batteries:
 
+- [NPM](http://npmjs.org) - Node package manager
+- [Gulp](http://gulpjs.com) - Task runner
+- [Babel](http://babeljs.io/) - JavaScript ES2015 compiler
+- [Browserify](http://browserify.org/) - Modular JavaScript bundler
 - [SASS](http://sass-lang.com/) - CSS with superpowers
-- [Compass](http://compass-style.org/) - CSS Authoring Framework using SASS
-- [Foundation](foundation.zurb.com) - Responsive front-end framework
-- [Livereload](http://livereload.com/) & [Chrome Plugin](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei) & [Firefox Plugin](https://addons.mozilla.org/en-US/firefox/addon/livereload/) - Refresh HTML, CSS, JS, images and other stuff as soon as they change
-- [Bower](http://bower.io) - Frontend dependency manager
-- [npm](http://npmjs.org) - Node package manager
-- [Grunt](http://gruntjs.com) - Task runner
-  - [Babel](http://babeljs.io/) - JavaScript ES2015 compiler
-  - [Browserify](http://browserify.org/) - Modular JavaScript bundler
-    - [Remapify](https://github.com/joeybaker/remapify) - Alias directories
-    - [Stringify](https://github.com/JohnPostlethwait/stringify) - Require text files
-  - [Uglify](https://www.npmjs.com/package/uglify) - Compress JS files
-  - [PostCSS](https://www.npmjs.com/package/postcss) - Tool for transforming styles with JS plugins
-  - [Vulcanize](https://www.npmjs.com/package/vulcanize) - Process Web Components into one output file
-  - [Minify Polymer](https://www.npmjs.com/package/grunt-minify-polymer) - Minify polymer
+- [Material Design Icons 1.6.50](https://materialdesignicons.com/) - Extended version of Google Material Design icons
 - [jQuery](http://jquery.com) - JavaScript general purpose library
-- [Polymer](http://polymer-project.org) - Make fast, beautiful, and interoperable web components
+- [Foundation 6.2.3](foundation.zurb.com) - Responsive front-end framework
 - [Underscore](http://underscorejs.org) - JavaScript functional library
 - [Backbone](http://backbonejs.org) - Structure for JS applications
+- [Livereload](http://livereload.com/) & [Chrome Plugin](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei) & [Firefox Plugin](https://addons.mozilla.org/en-US/firefox/addon/livereload/) - Refresh HTML, CSS, JS, images and other stuff as soon as they change
+- [Editorconfig](http://editorconfig.org/) - Define and maintain consistent coding styles between different editors and IDEs
+- [JSHint](http://jshint.com/) - Detect errors and potential problems in JavaScript code
 
-There are some other complementary tools too.
+The Foundation components and configuration and Material Design Icons are pre-installed with their respective versions commented.
+
+An example of Foundation installation is the [Foundation Sites Template](https://github.com/zurb/foundation-sites-template).
 
 ## Installation
 
-Install system dependencies:
+First, it is necessary to install [node.js](http://nodejs.org) ([install node.js](https://nodejs.org/en/download/)) and the node module [gulp](http://gulpjs.com) ([install gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md)).
 
-- [Node and npm](https://github.com/romelperez/workspace/tree/master/node) with the global packages:
-  - Grunt CLI
-  - Bower
-  - Mocha
-- [Ruby](https://github.com/romelperez/workspace/tree/master/ruby) with the gems:
-  - SASS
-  - Compass
-
-Project dependencies:
+You can either download the ZIP file and uncompress the folder files where you want to install your project or fork the git project. Once done, get in the terminal on the project folder and install the node dependencies:
 
 ```bash
 npm install
-bower install
 ```
 
-Project configuration:
-
-```bash
-npm run configure
-```
-
-Most project dependencies are needed in the development environment. In a production
-environment they are not required because assets would have been created.
+The built assets are being ignored by git. They should be build in a [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration) tool or simply by the server everytime there are new changes in the code base in the repository. This is an optional feature.
 
 ## Anatomy
 
-- `src/` - Main source code
+- `views/` - A tentative folder to put the backend views
+- `src/` - Main frontend source code. The dummy code is an example of code structure
   - `js/` - ES2015 code
   - `scss/` - SASS code
-  - `polymers/` - Polymer components
-  - `templates/` - Underscore templates
 - `assets/` - Public assets folder
+  - `img/` - Images
+  - `fonts/` - Web fonts
   - `js/` - JavaScript assets
   - `css/` - CSS assets
-  - `polymers/` - Compiled web components
-- `tests/` - Test suites
-  - `unit/` - Unit testing
-  - `integration/` - Integration testing
-  - `benchmarks/` - Benchmarks
-  - `index.js` - Testing entry point
-- `tasks/` - Grunt tasks
-  - `index.js` - Tasks entry point
+- `tasks/` - Gulp tasks
+  - `config.js` - Global tasks configurations
+  - `sass.js` - SASS task definition
+  - `browserify.js` - Browserify task definition
+  - `views.js` - Views watchers
+  - `watch.js` - Project files watchers
 - `package.json` - Node package info
-- `bower.json` - Bower dependencies
-- `Gruntfile.js` - Grunt file for tasks
-- `configure.js` - Project configuration file
-- `.bowerrc` - Bower config file
+- `gulpfile.js` - Gulp file for tasks
 - `.editorconfig` - [EditorConfig](http://editorconfig.org/)
 - `.jshintrc` - [JSHint](http://jshint.com/) config file
-- `.travis.yml` - [Travis CI](https://travis-ci.org) Test and deploy code in the cloud
-- `app.js` - [express](http://expressjs.com/) server example
+- `.gitignore` - Git ignore file
+- `app.js` - optional [express](http://expressjs.com/) server (this is to test the server)
+
+## Automation
+
+The `tasks` folder contains all [gulp](http://gulpjs.com) automated tasks. The `tasks/config.js` has all the configurations to run the tasks. Optionaly you can create an (git ignored) file called `local.js` inside the tasks folder which overwrites the global configuration to apply only in the local machine.
+
+The main tasks are:
+
+- `gulp` the default task. Watch over all configure files for changes and run the proper tasks when changes occurs.
+- `gulp build` build all frontend assets configured.
+
+The boolean variable `_debug` in the `package.json` file is used in all tasks to determine whether the tasks are to be run in a development or production environment. If the machine has the system variable `NODE_ENV` configured in `PRODUCTION`, the `_debug` variable is set to `false` regardless its value.
 
 ## License
 
