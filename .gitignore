@@ -1,4 +1,5 @@
 node_modules
+jspm_packages
 bower_components
 logs
 pids
@@ -19,7 +20,9 @@ nbproject
 .DS_STORE
 .netbeans
 .idea
+.npm
 .node_history
+.node_repl_history
 
 Thumbs.db
 config/local.js
