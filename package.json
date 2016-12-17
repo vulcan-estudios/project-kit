@@ -1,7 +1,7 @@
 {
   "_debug": true,
   "name": "project-kit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A project boilerplate with batteries included",
   "keywords": [
     "kit",
@@ -25,6 +25,10 @@
   },
   "bugs": {
     "url": "https://github.com/vulcan-estudios/project-kit/issues"
+  },
+  "main": "app.js",
+  "scripts": {
+    "build": "gulp build"
   },
   "dependencies": {
     "babel-polyfill": "^6.2.0",
@@ -56,9 +60,5 @@
     "stringify": "^5.1.0",
     "underscore": "^1.8.3",
     "vinyl-source-stream": "^1.1.0"
-  },
-  "main": "app.js",
-  "scripts": {
-    "build": "gulp build"
   }
 }
